@@ -1,5 +1,8 @@
-import 'package:expenses/components/transaction_user.dart';
+import 'package:expenses/components/transaction_form.dart';
+import 'package:expenses/components/transaction_list.dart';
 
+import 'package:expenses/models/transaction.dart';
+import 'dart:math';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -17,7 +20,49 @@ class ExpenseApp extends StatelessWidget {
   }
 }
 
-class MyHomePage extends StatelessWidget {
+class MyHomePage extends StatefulWidget {
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  final List<Transaction> _transactions = [
+    Transaction(
+      id: 't1',
+      title: 'Salário #1',
+      value: 5000,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: 't2',
+      title: 'Salário #2',
+      value: 5000,
+      date: DateTime.now(),
+    ),
+  ];
+
+  _addTransaction(String title, double value) {
+    final newTransaction = Transaction(
+      id: Random().nextDouble().toString(),
+      title: title,
+      value: value,
+      date: DateTime.now(),
+    );
+
+    setState(() {
+      _transactions.add(newTransaction);
+    });
+  }
+
+  _openTransactionFormModal(BuildContext context) {
+    // Abre modal para adicionar transação
+    showModalBottomSheet(
+        context: context,
+        builder: (_) {
+          return TransactionForm(_addTransaction);
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,7 +89,12 @@ class MyHomePage extends StatelessWidget {
                 elevation: 5,
               ),
             ),
-            TransactionUser()
+            Column(
+              children: <Widget>[
+                TransactionForm(_addTransaction),
+                TransactionList(_transactions),
+              ],
+            )
           ],
         ),
       ),
