@@ -72,7 +72,8 @@ class _MyHomePageState extends State<MyHomePage> {
           IconButton(
             icon: Icon(Icons.add),
             onPressed: () {
-              // Adicionar transação
+              _openTransactionFormModal(context);
+              // função que abre modal
             },
           )
         ],
@@ -89,18 +90,16 @@ class _MyHomePageState extends State<MyHomePage> {
                 elevation: 5,
               ),
             ),
-            Column(
-              children: <Widget>[
-                TransactionForm(_addTransaction),
-                TransactionList(_transactions),
-              ],
-            )
+            TransactionList(_transactions),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
-        onPressed: () {},
+        onPressed: () {
+          _openTransactionFormModal(context);
+          // função que abre modal
+        },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
