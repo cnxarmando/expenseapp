@@ -6,7 +6,9 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(ExpenseApp());
+  runApp(
+    ExpenseApp(),
+  );
 }
 
 class ExpenseApp extends StatelessWidget {
@@ -14,8 +16,31 @@ class ExpenseApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData thema = ThemeData();
     return MaterialApp(
       home: MyHomePage(),
+      theme: thema.copyWith(
+        colorScheme: thema.colorScheme.copyWith(
+            primary: Colors.purple,
+            secondary: Colors.green,
+            tertiary: Colors.amber),
+        textTheme: thema.textTheme.copyWith(
+          titleLarge: TextStyle(
+            fontFamily: 'Quicksand',
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+            color: Colors.black,
+          ),
+        ),
+        appBarTheme: AppBarTheme(
+          titleTextStyle: TextStyle(
+            fontFamily: 'OpenSans',
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: Colors.black,
+          ),
+        ),
+      ),
     );
   }
 }
@@ -49,18 +74,23 @@ class _MyHomePageState extends State<MyHomePage> {
       date: DateTime.now(),
     );
 
-    setState(() {
-      _transactions.add(newTransaction);
-    });
+    setState(
+      () {
+        _transactions.add(newTransaction);
+      },
+    );
+
+    Navigator.of(context).pop();
   }
 
   _openTransactionFormModal(BuildContext context) {
     // Abre modal para adicionar transação
     showModalBottomSheet(
-        context: context,
-        builder: (_) {
-          return TransactionForm(_addTransaction);
-        });
+      context: context,
+      builder: (_) {
+        return TransactionForm(_addTransaction);
+      },
+    );
   }
 
   @override
@@ -68,6 +98,8 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Despesas pessoais'),
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        elevation: 0,
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.add),
@@ -85,7 +117,7 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             Container(
               child: Card(
-                color: Colors.blue,
+                color: Theme.of(context).colorScheme.secondary,
                 child: Text("Gráfico"),
                 elevation: 5,
               ),
@@ -95,7 +127,12 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
+        backgroundColor: Theme.of(context).colorScheme.tertiary,
+        child: Icon(
+          Icons.add,
+          size: 30,
+          color: Colors.black,
+        ),
         onPressed: () {
           _openTransactionFormModal(context);
           // função que abre modal
