@@ -103,22 +103,47 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     bool isLandscape =
-        MediaQuery.of(context).orientation == Orientation.landscape;
+        MediaQuery.of(context).orientation == Orientation.landscape; // Verifica se o equipamento esta landscape
     final appBar = AppBar(
       title: Text(
         'Despesas pessoais',
-        style: TextStyle(fontSize: 10),
+        style: TextStyle(fontSize: 20),
       ),
       backgroundColor: Theme.of(context).colorScheme.primary,
       elevation: 0,
       actions: <Widget>[
-        IconButton(
-          icon: Icon(Icons.add),
-          onPressed: () {
-            _openTransactionFormModal(context);
-            // função que abre modal
-          },
-        )
+        if (isLandscape)
+          Container(
+            height: 60,
+            width: 60,
+            child: FractionallySizedBox(
+              widthFactor:
+                  0.6, // 60% da largura do Container heightFactor: 0.6,
+              child: IconButton(
+                icon: Icon(_showChart ? Icons.list : Icons.show_chart),
+                onPressed: () {
+                  setState(() {
+                    _showChart = !_showChart;
+                  });
+                  // função que abre modal
+                },
+              ),
+            ),
+          ),
+        Container(
+          height: 60,
+          width: 60,
+          child: FractionallySizedBox(
+            widthFactor: 0.6, // 60% da largura do Container heightFactor: 0.6,
+            child: IconButton(
+              icon: Icon(Icons.add),
+              onPressed: () {
+                _openTransactionFormModal(context);
+                // função que abre modal
+              },
+            ),
+          ),
+        ),
       ],
     );
 
